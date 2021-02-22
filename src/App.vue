@@ -30,18 +30,22 @@
 
     <v-main>
       <ContainerSwitch/>
+
+      <NodeSwitch/>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import ContainerSwitch from './components/ContainerSwitch.vue'
+import NodeSwitch from './components/NodeSwitch.vue'
 
 export default {
   name: 'App',
 
   components: {
-    ContainerSwitch
+    ContainerSwitch,
+    NodeSwitch
   } 
 };
 </script>
