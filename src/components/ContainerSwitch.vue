@@ -77,7 +77,7 @@
                     this.isLoading = false
                 });
             } else{
-                exec("docker-compose -f gateway/docker-compose.yml down --rmi all", (error, data, getter) => {
+                exec("docker-compose -f gateway/docker-compose.yml down -v --rmi all", (error, data, getter) => {
                     if (error) {
                         console.log("error", error.message);
                         this.running = true
