@@ -5,6 +5,7 @@
         v-on:change="changeRunning()" 
         :label="`Gateway is ${running ? 'up' : 'down'}`"
         color="black"
+        data-testid="gatSwitch"
         ></v-switch>
 
         <loading :active.sync="isLoading" 
