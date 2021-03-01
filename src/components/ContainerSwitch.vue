@@ -92,7 +92,8 @@
     },
 
     mounted() {
-        sudo.exec("docker -v && echo $?", options, (error, stdout) => {
+        if (process.platform !== 'win32'){
+            sudo.exec("docker -v && echo $?", options, (error, stdout) => {
                 if (error) {
                     console.log("error", error);
                     return;
@@ -119,6 +120,7 @@
                     return;
                 }
             });
+        } 
     } 
   }
 </script>
