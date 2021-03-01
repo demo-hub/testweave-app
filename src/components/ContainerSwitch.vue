@@ -42,20 +42,13 @@
 
     methods: {
         checkDocker() {
-            exec("docker ps -q -f name=stoic_mcnulty", (error, data, getter) => {
+            sudo.exec("docker ps | grep 'lucaarweave/arweave-node:0.0.1'", options, (error, stdout) => {
                 if (error) {
                     console.log("error", error.message);
+                    this.running = false
                     return;
                 }
-                if (getter) {
-                    if (data) {
-                        this.running = true
-                    } else {
-                        this.running = false
-                    } 
-                    return;
-                }
-                if (data) {
+                if (stdout) {
                     this.running = true
                 } else {
                     this.running = false
@@ -67,36 +60,32 @@
             // called whenever the switch changes
             this.isLoading = true
             if (this.running) {
-                exec("docker pull lucaarweave/arweave-node:0.0.1 && docker run lucaarweave/arweave-node:0.0.1", (error, data, getter) => {
+                sudo.exec("docker pull lucaarweave/arweave-node:0.0.1 && docker run -p 1984:1984 lucaarweave/arweave-node:0.0.1", options, (error, stdout) => {
                     if (error) {
                         console.log("error", error.message);
                         this.running = false
                         this.isLoading = false
                         return;
                     }
-                    if (getter) {
-                        console.log(data)
+                    if (stdout) {
+                        console.log(stdout)
                         this.isLoading = false
                         return;
                     }
-                    console.log("compose up", data);
-                    this.isLoading = false
                 });
             } else{
-                exec("docker stop stoic_mcnulty", (error, data, getter) => {
+                sudo.exec("docker ps -a -q --filter ancestor=lucaarweave/arweave-node:0.0.1 | xargs -r docker stop", (error, stdout) => {
                     if (error) {
-                        console.log("error", error.message);
+                        console.log("error docker stop", error.message);
                         this.running = true
                         this.isLoading = false
                         return;
                     }
-                    if (getter) {
-                        console.log(data)
+                    if (stdout) {
+                        console.log(stdout)
                         this.isLoading = false
                         return;
                     }
-                    console.log("compose down", data);
-                    this.isLoading = false
                 });
             } 
         } 
