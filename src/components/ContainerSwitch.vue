@@ -42,7 +42,7 @@
 
     methods: {
         checkDocker() {
-            sudo.exec("docker ps | grep 'lucaarweave/arweave-node:0.0.1'", options, (error, stdout) => {
+            sudo.exec("docker ps | grep 'testweave-docker_gateway", options, (error, stdout) => {
                 if (error) {
                     console.log("error", error.message);
                     this.running = false
@@ -60,21 +60,46 @@
             // called whenever the switch changes
             this.isLoading = true
             if (this.running) {
-                sudo.exec("docker pull lucaarweave/arweave-node:0.0.1 && docker run -p 1984:1984 -d lucaarweave/arweave-node:0.0.1", options, (error, stdout) => {
+                sudo.exec("docker container ls --all | grep 'testweave-docker_gateway", options, (error, stdout) => {
                     if (error) {
                         console.log("error", error.message);
                         this.running = false
-                        this.isLoading = false
+                        this.isLoading = false;
                         return;
                     }
                     if (stdout) {
-                        console.log(stdout)
-                        this.isLoading = false
-                        return;
+                        sudo.exec("docker-compose -f testweave-docker/docker-compose.yml start", options, (error, stdout) => {
+                            if (error) {
+                                console.log("error", error.message);
+                                this.running = false
+                                this.isLoading = false
+                                return;
+                            }
+                            if (stdout) {
+                                console.log(stdout)
+                                this.isLoading = false
+                                return;
+                            }
+                        });
+                    } else {
+                        sudo.exec("docker-compose -f testweave-docker/docker-compose.yml build && docker-compose -f testweave-docker/docker-compose.yml up -d", options, (error, stdout) => {
+                            if (error) {
+                                console.log("error", error.message);
+                                this.running = false
+                                this.isLoading = false
+                                return;
+                            }
+                            if (stdout) {
+                                console.log(stdout)
+                                this.isLoading = false
+                                return;
+                            }
+                        });
                     }
+                    // console.log("build", data);
                 });
             } else{
-                sudo.exec("docker ps -a -q --filter ancestor=lucaarweave/arweave-node:0.0.1 | xargs -r docker stop", options, (error, stdout) => {
+                sudo.exec("docker-compose -f testweave-docker/docker-compose.yml stop", options, (error, stdout) => {
                     if (error) {
                         console.log("error docker stop", error.message);
                         this.running = true
