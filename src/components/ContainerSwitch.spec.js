@@ -16,9 +16,9 @@ test('changes switch value on click', async () => {
     // Dispatch a native click event to our switch element.
     await fireEvent.click(gatSwitch)
 
-    if (text === 'Gateway is up'){
-      getByText('Gateway is down')
+    if (text === 'Testweave is up'){
+      getByText('Testweave is down')
     } else{
-      getByText('Gateway is up')
+      getByText('Testweave is up')
     } 
   })
