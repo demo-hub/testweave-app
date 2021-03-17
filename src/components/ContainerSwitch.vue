@@ -150,7 +150,10 @@
     },
 
     mounted() {
+        // TODO: check versions and upgrade if needed
+        // for now installing docker and docker-compose is Unix OS only
         if (process.platform !== 'win32'){
+            // check if docker is installed and, if not, install it
             sudo.exec("docker -v && echo $?", options, (error, stdout) => {
                 if (error) {
                     console.log("error", error);
@@ -167,13 +170,66 @@
                             if (stdout) {
                                 console.log("stdout", stdout);
 
-                                this.checkDocker();
+                                // check if docker-compose is installed and, if not, install it
+                                sudo.exec("docker-compose -v && echo $?", options, (error, stdout) => {
+                                    if (error) {
+                                        console.log("error", error);
+                                        return;
+                                    }
+                                    if (stdout) {
+                                        if (!stdout.endsWith('0', stdout.length - 1)){
+                                            sudo.exec("curl -L https://github.com/docker/compose/releases/download/1.28.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose", options, (error, stdout) => {
+                                                if (error) {
+                                                    console.log("error", error);
+                                                    return;
+                                                }
 
-                                return;
+                                                if (stdout) {
+                                                    console.log("stdout", stdout);
+
+                                                    this.checkDocker();
+
+                                                    return;
+                                                }
+                                            })
+                                        } else{
+                                            this.checkDocker();
+                                        } 
+                                        return;
+                                    }
+                                });
                             }
                         })
                     } else{
-                        this.checkDocker();
+
+                        // check if docker-compose is installed and, if not, install it
+                                sudo.exec("docker-compose -v && echo $?", options, (error, stdout) => {
+                                    if (error) {
+                                        console.log("error", error);
+                                        return;
+                                    }
+                                    if (stdout) {
+                                        if (!stdout.endsWith('0', stdout.length - 1)){
+                                            sudo.exec("curl -L https://github.com/docker/compose/releases/download/1.28.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose", options, (error, stdout) => {
+                                                if (error) {
+                                                    console.log("error", error);
+                                                    return;
+                                                }
+
+                                                if (stdout) {
+                                                    console.log("stdout", stdout);
+
+                                                    this.checkDocker();
+
+                                                    return;
+                                                }
+                                            })
+                                        } else{
+                                            this.checkDocker();
+                                        } 
+                                        return;
+                                    }
+                                });
                     } 
                     return;
                 }
