@@ -3,7 +3,7 @@
         <v-btn
             color="black white--text"
             elevation="2"
-            @click="onClick"
+            @click="mine"
         >Mine</v-btn>
 
         <!-- <loading :active.sync="isLoading" 
@@ -18,6 +18,17 @@
     // Import loading stylesheet
     // import 'vue-loading-overlay/dist/vue-loading.css';
 
+    import Arweave from 'arweave';
+    import TestWeave from 'testweave-sdk';
+
+    const arweave = Arweave.init({
+    host: 'localhost',
+    port: 1984,
+    protocol: 'http',
+    timeout: 20000,
+    logging: false,
+    }); 
+
   export default {
     name: 'Mine',
 
@@ -26,8 +37,9 @@
     },
 
     methods: {
-        onClick() {
-            console.log('ok');
+        async mine() {
+            const testWeave = await TestWeave.init(arweave);
+            await testWeave.mine();
         }
     },
 
