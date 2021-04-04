@@ -31,6 +31,8 @@
     <v-main>
       <ContainerSwitch/>
 
+      <Mine/>
+
       <!-- <NodeSwitch/> -->
     </v-main>
   </v-app>
@@ -38,13 +40,15 @@
 
 <script>
 import ContainerSwitch from './components/ContainerSwitch.vue'
+import Mine from './components/Mine.vue'
 // import NodeSwitch from './components/NodeSwitch.vue'
 
 export default {
   name: 'App',
 
   components: {
-    ContainerSwitch
+    ContainerSwitch,
+    Mine
     // NodeSwitch
   } 
 };

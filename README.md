@@ -6,26 +6,6 @@ Electron app to facilitate the process of mounting the testweave local network t
 
 ### Installation
 
-#### Ubuntu
-
-Download the files from <https://arweave.net/M7IunZT3Y-AF1-KuL3_zs8PCJsg4PKHbyeyfXOZX8Fk/testweave.tar.xz> (.AppImage and docker-compose.yml). **The .AppImage and docker-compose.yml have to be on the same directory**.
- 
-Make the app image executable
-
-```
-chmod a+x testweave-0.1.0.AppImage
-```
-
-Execute the app image
-
-```
-./testweave-0.1.0.AppImage
-```
-
-#### Windows
-
-Download the files from <https://arweave.net/_CUyFXyzyzXf37uBdY0kotWpK2VHUvmgkmTUwaqzOVQ/testweave.zip> (.exe and docker-compose.yml). **The .exe and docker-compose.yml have to be on the same directory**. Run the .exe.
-
 ### Workflow
 
 When you start the app, it will check if docker and docker-compose are installed and, if not, it will install it. **This feature only works on Unix OS for now**. Then, it will check if you already have the local node running. Finally, with the switch presented on the user interface, you can turn the testweave network on and off.

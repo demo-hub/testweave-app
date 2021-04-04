@@ -11,6 +11,7 @@ export default new Vuetify({
             primary: colors.grey.base,
             secondary: colors.red.lighten4,
             accent: colors.indigo.base,
+            white: "#ffffff"
           },
         },
       }
